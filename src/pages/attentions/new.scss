@@ -1,0 +1,127 @@
+.new {
+  width: 100%;
+  display: flex;
+
+  .newContainer {
+    flex: 6;
+
+    .top {
+      margin: 20px 20px 40px;
+    }
+
+    .bottom {
+      // -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+      margin: 40px;
+      display: flex;
+      border-radius: 5px;
+      border: 1px solid rgb(234, 234, 239);
+      // box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+
+      h1 {
+        color: rgb(10, 9, 9);
+        font-size: 25px;
+        box-shadow: none;
+      }
+
+
+      .left {
+        flex: 1;
+        text-align: center;
+
+        img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      // .ParebtEditor{
+      //   display: flex;
+      //   flex-direction: column;
+      //   position:relative
+      // }
+      // .RefId{
+      //   justify-content: flex-end;
+      // }
+
+      .right {
+        flex: 2;
+
+        form {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 30px;
+          justify-content: space-around;
+
+          .formInput {
+            width: 40%;
+
+            label {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+
+              .icon {
+                cursor: pointer;
+              }
+            }
+
+            input {
+              width: 100%;
+              padding: 5px;
+              border: none;
+              border-bottom: 1px solid gray;
+            }
+          }
+
+          .imageupload {
+            display: inline-block;
+
+          }
+        
+
+          button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            background-color: teal;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+          }
+        }
+        
+      }
+      
+    }
+    
+  }
+  h1{
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    font-size: 23px;
+    font-weight: bold;
+    color: rgb(0, 119, 255);
+
+  }
+  button{
+    margin-left: 20px;
+    width: 10%;
+    height: 5%;
+    background-color: rgb(229 214 214); 
+    cursor: pointer;
+    border: aliceblue;
+    border-radius: 4px;
+  }
+ 
+  #outlined-disabled {
+    margin-left: 5em;
+  }
+ 
+}
+
+attation_lg{
+  margin-left: 20px;
+}

@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  width: 100%;
+  .listContainer {
+    flex: 6;
+  }
+  h1 *{
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: rgb(0, 119, 255);
+  }
+}

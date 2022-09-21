@@ -1,0 +1,82 @@
+.datatable {
+  height: 600px;
+  padding: 20px;
+  
+  .feedbackParent{
+    display: flex;
+    flex-direction: column;
+  }
+  .datatableTitle{
+    width: 100%;
+    font-size: 24px;
+    color:  rgb(0, 119, 255);
+    margin-top: 5px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-left: 10px;
+
+    .link{
+      text-decoration: none;
+      color: rgb(0, 2, 0);
+      font-size: 16px;
+      font-weight: 400;
+      border: 1px solid rgb(128, 83, 0);
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+  }
+
+  .cellWithImg {
+    display: flex;
+    align-items: center;
+
+    .cellImg {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+  }
+
+  .cellWithStatus {
+    padding: 5px;
+    border-radius: 5px;
+
+    &.Published {
+      background-color: rgb(234, 251, 231);
+      color: rgb(47, 104, 70) ;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    &.Unpublished {
+      background-color: rgba(255, 0, 0, 0.05);
+      color: red;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  }
+
+  .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .viewButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: darkblue;
+      border: 1px dotted rgba(0, 0, 139, 0.596);
+      cursor: pointer;
+    }
+    
+    .deleteButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: crimson;
+      border: 1px dotted rgba(220, 20, 60, 0.6);
+      cursor: pointer;
+    }
+  }
+}
