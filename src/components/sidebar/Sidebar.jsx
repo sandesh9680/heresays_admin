@@ -48,15 +48,14 @@ const Sidebar = () => {
 
       <div className="center">
         <ul>
-{  (userStatus && (userStatus.banner_access===1 
-|| userStatus.bookpage_access=== 1
-|| userStatus.classified_access===1
-|| userStatus.advertisement_access===1
-||userStatus.liststory_access===1) )
-&&
-(
-  <p className="title">Collections Types</p>
-)}
+          {userStatus &&
+            (userStatus.banner_access === 1 ||
+              userStatus.bookpage_access === 1 ||
+              userStatus.classified_access === 1 ||
+              userStatus.advertisement_access === 1 ||
+              userStatus.liststory_access === 1) && (
+              <p className="title">Collections Types</p>
+            )}
           {userStatus && userStatus.banner_access === 1 && (
             <Link to="/app/banner" style={{ textDecoration: "none" }}>
               <li>
@@ -75,7 +74,7 @@ const Sidebar = () => {
             </Link>
           )}
 
-          {userStatus && userStatus.classified_access == 1 && (
+          {/* {userStatus && userStatus.classified_access == 1 && (
             <Link to="/app/classified" style={{ textDecoration: "none" }}>
               <li>
                 <GroupAddIcon className="icon" />
@@ -91,7 +90,7 @@ const Sidebar = () => {
                 <span>Advertisement</span>
               </li>
             </Link>
-          )}
+          )} */}
 
           {userStatus && userStatus.liststory_access == 1 && (
             <Link to="/app/liststory" style={{ textDecoration: "none" }}>
@@ -101,18 +100,14 @@ const Sidebar = () => {
               </li>
             </Link>
           )}
-          {  (userStatus && (userStatus.attentionmodel_access===1 
-|| userStatus.chatroom_access=== 1
-|| userStatus.disclaimer_access===1
-|| userStatus.social_access===1
-||userStatus.termsandcondition_access===1
-||userStatus.manual===1)
- )
-&&
-(
-          <p className="title">Single</p>
-)}
-            
+          {userStatus &&
+            (userStatus.attentionmodel_access === 1 ||
+              userStatus.chatroom_access === 1 ||
+              userStatus.disclaimer_access === 1 ||
+              userStatus.social_access === 1 ||
+              userStatus.termsandcondition_access === 1 ||
+              userStatus.manual === 1) && <p className="title">Single</p>}
+
           {userStatus && userStatus.attentionmodel_access == 1 && (
             <Link to="/app/attention" style={{ textDecoration: "none" }}>
               <li>
@@ -140,14 +135,14 @@ const Sidebar = () => {
             </Link>
           )}
 
-          {userStatus && userStatus.social_access == 1 && (
+          {/* {userStatus && userStatus.social_access == 1 && (
             <Link to="/app/social" style={{ textDecoration: "none" }}>
               <li>
                 <ConnectWithoutContactIcon className="icon" />
                 <span>Social</span>
               </li>
             </Link>
-          )}
+          )} */}
 
           {userStatus && userStatus.termsandcondition_access == 1 && (
             <Link to="/app/termscondition" style={{ textDecoration: "none" }}>
@@ -167,7 +162,7 @@ const Sidebar = () => {
             </Link>
           )}
           {userStatus && userStatus.feedback_access == 1 && (
-          <p className="title">Feedback</p>
+            <p className="title">Feedback</p>
           )}
           {userStatus && userStatus.feedback_access == 1 && (
             <Link to="/app/feedback" style={{ textDecoration: "none" }}>
@@ -177,8 +172,24 @@ const Sidebar = () => {
               </li>
             </Link>
           )}
+          {userStatus && userStatus.feedback_access == 1 && (
+            <Link to="/app/DisableFeedback" style={{ textDecoration: "none" }}>
+              <li>
+                <FeedbackIcon className="icon" />
+                <span>Disabled Stories</span>
+              </li>
+            </Link>
+          )}
+          {userStatus && userStatus.feedback_access == 1 && (
+            <Link to="/app/editcontent" style={{ textDecoration: "none" }}>
+              <li>
+                <FeedbackIcon className="icon" />
+                <span>Edit Menu</span>
+              </li>
+            </Link>
+          )}
           {userStatus && userStatus.user_role == 1 && (
-          <p className="title">Settings</p>
+            <p className="title">Settings</p>
           )}
           {userStatus && userStatus.user_role == 1 && (
             <Link to="/app/listusers" style={{ textDecoration: "none" }}>

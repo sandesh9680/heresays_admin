@@ -27,7 +27,8 @@ export default function RichEditor(props) {
           image_title: true,
           toolbar_mode: 'wrap',
           statusbar: false,
-          table_use_colgroups: false,
+          table_use_colgroups: false, 
+          default_link_target: '_blank',
           plugins:
             [
               'image',
@@ -43,7 +44,8 @@ export default function RichEditor(props) {
               'media',
               'searchreplace',
               'table',
-              'wordcount'
+              'wordcount',
+              'link'
 
             ],
           file_picker_callback: (cb, value, meta) => {

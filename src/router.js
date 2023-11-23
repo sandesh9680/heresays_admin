@@ -29,12 +29,14 @@ import Users from "./pages/users/ListUsers";
 import ListUsers from "./pages/users/ListUsers";
 import EditUsers from "./pages/users/editUsers";
 import Feedback from "./pages/feedback/feedback";
+import DisableFeedback from "./pages/feedback/disablefeedback";
+import EditJsonFile from "./pages/editJsonFile/editJsonFile";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ApiUrl } from "./config/config";
 import LandingPage from "./pages/layout/landingPage";
 const RouterComponent = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [userStatus, setUserStatus] = useState();
   let userObj;
   if (localStorage.getItem("here_user")) {
@@ -52,18 +54,16 @@ const RouterComponent = () => {
       setUserStatus(res.data.list);
     });
   };
-useEffect(()=>{
-if(window.location.pathname==='/'){
-  navigate('/app/landing')
-}
-},[])
-
+  useEffect(() => {
+    if (window.location.pathname === "/") {
+      navigate("/app/landing");
+    }
+  }, []);
 
   return (
     <Routes>
-
       <Route path="/login" element={<Login />} />
-      
+
       <Route
         path="/"
         element={
@@ -72,7 +72,6 @@ if(window.location.pathname==='/'){
           </RequireAuth>
         }
       >
-      
         <Route
           path="/app/landing"
           element={
@@ -300,6 +299,26 @@ if(window.location.pathname==='/'){
             element={
               <RequireAuth redirectTo="/login">
                 <Feedback inputs={userInputs} title="update An Entry" />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        <Route path="/app/DisableFeedback">
+          <Route
+            index
+            element={
+              <RequireAuth redirectTo="/login">
+                <DisableFeedback inputs={userInputs} title="update An Entry" />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        <Route path="/app/editcontent">
+          <Route
+            index
+            element={
+              <RequireAuth redirectTo="/login">
+                <EditJsonFile inputs={userInputs} title="update An Entry" />
               </RequireAuth>
             }
           />

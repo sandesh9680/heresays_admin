@@ -1,22 +1,23 @@
 .datatable {
   height: 600px;
   padding: 20px;
-  
-  .feedbackParent{
+
+  .feedbackParent {
     display: flex;
     flex-direction: column;
   }
-  .datatableTitle{
+
+  .datatableTitle {
     width: 100%;
     font-size: 24px;
-    color:  rgb(0, 119, 255);
+    color: rgb(0, 119, 255);
     margin-top: 5px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     margin-left: 10px;
 
-    .link{
+    .link {
       text-decoration: none;
       color: rgb(0, 2, 0);
       font-size: 16px;
@@ -48,9 +49,10 @@
 
     &.Published {
       background-color: rgb(234, 251, 231);
-      color: rgb(47, 104, 70) ;
+      color: rgb(47, 104, 70);
       font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     }
+
     &.Unpublished {
       background-color: rgba(255, 0, 0, 0.05);
       color: red;
@@ -70,7 +72,7 @@
       border: 1px dotted rgba(0, 0, 139, 0.596);
       cursor: pointer;
     }
-    
+
     .deleteButton {
       padding: 2px 5px;
       border-radius: 5px;
@@ -79,4 +81,19 @@
       cursor: pointer;
     }
   }
+}
+
+
+.feedback_view_popup {
+  overflow-y: scroll;
+  height: 120px;
+}
+
+.feedback_message {
+  overflow-y: scroll;
+  height: 90px;
+}
+
+.removeborder:focus {
+  outline: none !important;
 }

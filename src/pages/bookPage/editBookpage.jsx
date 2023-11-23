@@ -134,6 +134,7 @@ const EditBookPage = ({ inputs, title, text, name }) => {
         <span>
         {params&&params.op!='add'&&
         <button style={{ marginLeft:"76%",backgroundColor:"rgb(0, 119, 255)",height:"35px",color: "white" }} onClick={sayHello}>{publishStatus=='publish'?'Publish':'Unpublish'}</button>   }     
+        
       <SaveButton isDisabled={saveAction} onSubmit={(event) => onSubmit(event)} isLoading={isLoading} size={20} />
         </span>
      </div>
