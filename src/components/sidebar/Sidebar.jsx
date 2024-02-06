@@ -112,7 +112,7 @@ const Sidebar = () => {
             <Link to="/app/attention" style={{ textDecoration: "none" }}>
               <li>
                 <ReportIcon className="icon" />
-                <span>Attention Model</span>
+                <span>Jurisdiction model</span>
               </li>
             </Link>
           )}
@@ -130,7 +130,7 @@ const Sidebar = () => {
             <Link to="/app/disclaimer" style={{ textDecoration: "none" }}>
               <li>
                 <DiscFullIcon className="icon" />
-                <span>Disclaimer</span>
+                <span>Explanations model</span>
               </li>
             </Link>
           )}
@@ -161,6 +161,16 @@ const Sidebar = () => {
               </li>
             </Link>
           )}
+
+          {userStatus && userStatus.manual_access == 1 && (
+            <Link to="/app/heresaysherlad" style={{ textDecoration: "none" }}>
+              <li>
+                <LibraryBooksIcon className="icon" />
+                <span>Heresays Herlad</span>
+              </li>
+            </Link>
+          )}
+
           {userStatus && userStatus.feedback_access == 1 && (
             <p className="title">Feedback</p>
           )}
@@ -184,7 +194,7 @@ const Sidebar = () => {
             <Link to="/app/editcontent" style={{ textDecoration: "none" }}>
               <li>
                 <FeedbackIcon className="icon" />
-                <span>Edit Menu</span>
+                <span>Edit List</span>
               </li>
             </Link>
           )}

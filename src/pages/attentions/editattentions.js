@@ -66,64 +66,69 @@ const EditAttention = ({ inputs, title, text, name }) => {
   const getTransLatedTextInsequence = async () => {
     let translatedData = {
       en: {
-        value: textData.replace(/'/g, ""),
+        value: textData?.replace(/'/g, ""),
       },
     };
-    
-    if(!textData){return ""};
-    
+
+
+
+    if (!textData) { return "" };
+
     for (let index = 1; index < language.length; index++) {
       await delay();
-      let previousValue = defaultData[language[index]];
-      let incrementalData = textData.replace(defaultData &&defaultData.en ?defaultData.en.value:"", "");
-      if(incrementalData.indexOf("<img")>-1){
-        translatedData[language[index]]= {value: previousValue.value + incrementalData};
+      let previousValue = defaultData && defaultData[language[index]];
+      let incrementalData = textData.replace(defaultData && defaultData.en ? defaultData.en.value : "", "");
+      if (incrementalData.indexOf("<img") > -1) {
+        translatedData[language[index]] = { value: previousValue.value + incrementalData };
       }
-      else{
-      let res = await tranlateText(language[index]);
-      // translatedData[language[index]] = { value: res.data.text }
-      let requiredValue =  res.data.text?  ( previousValue ? previousValue.value : "") + res.data.text: '';
-      translatedData[language[index]] = {value: requiredValue }
+      else {
+        let res = await tranlateText(language[index]);
+        // translatedData[language[index]] = { value: res.data.text }
+        let requiredValue = res && res?.data.text ? (previousValue ? previousValue.value : "") + res?.data.text : '';
+        translatedData[language[index]] = { value: requiredValue }
       }
     }
+
     return translatedData;
   };
 
   const tranlateText = (lang) => {
+
     let textForTraslate = textData.replace(/'/g, "");
     textForTraslate = textForTraslate.substring(
-      defaultData.en.value.length + 1,
+      defaultData?.en?.value.length + 1,
       textData.length + 1
     );
-    if(editorLanguage=="en")
-    return axios.post(
-      `${ApiUrl}translate`,
-      {
-        mimeType: "text/html",
-        targetLanguageCode: lang,
-        // text: textData.replace(defaultData?defaultData.en.value:"", ""),
-        text: textForTraslate,
-        location: "global",
-      }
-    );
+
+    if (editorLanguage == "en")
+      return axios.post(
+        `${ApiUrl}translate`,
+        {
+          mimeType: "text/html",
+          targetLanguageCode: lang,
+          // text: textData.replace(defaultData?defaultData.en.value:"", ""),
+          text: textForTraslate,
+          location: "global",
+        }
+      )
   };
 
   const onSave = () => {
-    let oldContent = {...defaultData}
-    oldContent[editorLanguage] = {value : textData}
+    let oldContent = { ...defaultData }
+    oldContent[editorLanguage] = { value: textData }
     axios
-    .put(`${ApiUrl}updateAttention/10`, {
-      description: encodeURIComponent(JSON.stringify(oldContent)),
-    })
-    .then((res) => {
-      getdata();
-      // setIsLoading(false);
-      // setSaveAction(true);
-    })
-    .catch((error) => {
-      console.log("error occured in translation");
-      // setIsLoading(false);
-    });
+      .put(`${ApiUrl}updateAttention/10`, {
+        description: encodeURIComponent(JSON.stringify(oldContent)),
+      })
+      .then((res) => {
+        getdata();
+        // setIsLoading(false);
+        // setSaveAction(true);
+      })
+      .catch((error) => {
+        console.log("error occured in translation");
+        // setIsLoading(false);
+      });
 
   }
 
@@ -174,7 +179,7 @@ const EditAttention = ({ inputs, title, text, name }) => {
             Attention Model
           </h1>
         </div>
-        <span style={{marginTop:"-5%"}}>
+        <span style={{ marginTop: "-5%" }}>
           <button
             style={{
               marginLeft: "76%",
@@ -186,14 +191,14 @@ const EditAttention = ({ inputs, title, text, name }) => {
           >
             {publishStatus}
           </button>
-          {editorLanguage === "en" ? 
-            <Button type="submit" style={{  backgroundColor:"#0077ff", height:"35px" , width:"auto",color: "white", float:"right", right:"2%", marginBottom:"-2%"}}  onClick={(event) => onSave()} >
-            {isLoading ? <Loader size={20} isLoading={isLoading}></Loader>:"Save"}
-        </Button>
-          : null}
+          {editorLanguage === "en" ?
+            <Button type="submit" style={{ backgroundColor: "#0077ff", height: "35px", width: "auto", color: "white", float: "right", right: "2%", marginBottom: "-2%" }} onClick={(event) => onSave()} >
+              {isLoading ? <Loader size={20} isLoading={isLoading}></Loader> : "Save"}
+            </Button>
+            : null}
           <SaveButton
             isDisabled={saveAction}
-            onSubmit={editorLanguage=="en" ? (event) => onSubmit(event) : (event) => onSave()} 
+            onSubmit={editorLanguage == "en" ? (event) => onSubmit(event) : (event) => onSave()}
             lang={editorLanguage}
             isLoading={isLoading}
             size={20}
@@ -208,7 +213,7 @@ const EditAttention = ({ inputs, title, text, name }) => {
                 );
               })}
           </select> */}
-            <select onChange={(e) => setEditorLanguage(e.target.value)}>
+          <select onChange={(e) => setEditorLanguage(e.target.value)}>
             {AllLanguageFromJson &&
               AllLanguageFromJson.map((x) => {
                 return (

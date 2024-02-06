@@ -23,8 +23,8 @@ const Disclaimer = ({ inputs, title, text, name }) => {
   const [allLanguages, setAllLanguages] = useState([]);
   const [editorLanguage, setEditorLanguage] = useState("en");
   const [defaultData, setDefaultData] = useState("");
-  const [isLoading, setIsLoading]= useState(false);
-  const [saveAction, setSaveAction]= useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [saveAction, setSaveAction] = useState(true);
   const [publishStatus, setPublishStatus] = useState('')
   const navigate = useNavigate();
   const params = useParams();
@@ -40,7 +40,7 @@ const Disclaimer = ({ inputs, title, text, name }) => {
   const getdata = () => {
     axios.get(`${ApiUrl}getDisclaimer`).then((res) => {
       let requiredData = res.data.data.filter((x) => x.id == 2);
-      setPublishStatus(requiredData[0].attributes.published_at?"unpublish":'publish')
+      setPublishStatus(requiredData[0].attributes.published_at ? "unpublish" : 'publish')
       let disclaimerData = JSON.parse(decodeURIComponent(requiredData[0].attributes.description));
       setDefaultData(disclaimerData);
     });
@@ -62,19 +62,19 @@ const Disclaimer = ({ inputs, title, text, name }) => {
       }
     };
 
-    if(!textData){return ""};
+    if (!textData) { return "" };
     for (let index = 1; index < language.length; index++) {
       await delay();
       let previousValue = defaultData[language[index]];
-      let incrementalData = textData.replace(defaultData &&defaultData.en ?defaultData.en.value:"", "");
-      if(incrementalData.indexOf("<img")>-1){
-        translatedData[language[index]]= {value: previousValue.value + incrementalData};
+      let incrementalData = textData.replace(defaultData && defaultData.en ? defaultData.en.value : "", "");
+      if (incrementalData.indexOf("<img") > -1) {
+        translatedData[language[index]] = { value: previousValue.value + incrementalData };
       }
-      else{
-      let res = await tranlateText(language[index]);
-      // translatedData[language[index]] = { value: res.data.text }
-      let requiredValue =  res.data.text?  ( previousValue ? previousValue.value : "") + res.data.text: '';
-      translatedData[language[index]] = {value: requiredValue }
+      else {
+        let res = await tranlateText(language[index]);
+        // translatedData[language[index]] = { value: res.data.text }
+        let requiredValue = res.data.text ? (previousValue ? previousValue.value : "") + res.data.text : '';
+        translatedData[language[index]] = { value: requiredValue }
       }
     }
     return translatedData
@@ -86,37 +86,37 @@ const Disclaimer = ({ inputs, title, text, name }) => {
       defaultData.en.value.length + 1,
       textData.length + 1
     );
-    if(editorLanguage=="en")
-    return axios.post(
-      `${ApiUrl}translate`,
-      {
-     
-        mimeType: "text/html",
-        targetLanguageCode: lang,
-        text: textForTraslate,
-        // text: textData.replace(defaultData?defaultData.en.value:"", ""),
-        location: "global",
-      }
-    );
+    if (editorLanguage == "en")
+      return axios.post(
+        `${ApiUrl}translate`,
+        {
+
+          mimeType: "text/html",
+          targetLanguageCode: lang,
+          text: textForTraslate,
+          // text: textData.replace(defaultData?defaultData.en.value:"", ""),
+          location: "global",
+        }
+      );
   };
 
 
   const onSave = () => {
-    let oldContent = {...defaultData}
-    oldContent[editorLanguage] = {value : textData}
+    let oldContent = { ...defaultData }
+    oldContent[editorLanguage] = { value: textData }
     axios
-    .put(`${ApiUrl}updateDisclaimer/2`, {
-      description: encodeURIComponent(JSON.stringify(oldContent)),
-    })
-    .then((res) => {
-      getdata();
-      // setIsLoading(false);
-      // setSaveAction(true);
-    })
-    .catch((error) => {
-      console.log("error occured in translation");
-      // setIsLoading(false);
-    });
+      .put(`${ApiUrl}updateDisclaimer/2`, {
+        description: encodeURIComponent(JSON.stringify(oldContent)),
+      })
+      .then((res) => {
+        getdata();
+        // setIsLoading(false);
+        // setSaveAction(true);
+      })
+      .catch((error) => {
+        console.log("error occured in translation");
+        // setIsLoading(false);
+      });
 
   }
 
@@ -126,18 +126,18 @@ const Disclaimer = ({ inputs, title, text, name }) => {
     getTransLatedTextInsequence().then((resultText) => {
       axios
         .put(`${ApiUrl}updateDisclaimer/2`, {
-          description:encodeURIComponent(JSON.stringify(resultText)),
+          description: encodeURIComponent(JSON.stringify(resultText)),
           label: "test"
         })
         .then((res) => {
           getdata()
           setSaveAction(true)
           setIsLoading(false)
-        }).catch((error)=>{
+        }).catch((error) => {
           console.log(error)
           setIsLoading(false)
         });
-        alert("Data updated Successfully");
+      alert("Data updated Successfully");
     });
   };
   const OnTextChange = (value, editor) => {
@@ -146,18 +146,18 @@ const Disclaimer = ({ inputs, title, text, name }) => {
   };
   function sayHello(type) {
     axios
-    .put(`${ApiUrl}updateDisclaimerStatus/2`, {
-      type: type
-      
-    })
-    .then((res) => {
-      setIsLoading(false)
-      getdata()
-    }).catch((err)=>{
-      console.log("err",err)
-      setIsLoading(false)
+      .put(`${ApiUrl}updateDisclaimerStatus/2`, {
+        type: type
 
-    })
+      })
+      .then((res) => {
+        setIsLoading(false)
+        getdata()
+      }).catch((err) => {
+        console.log("err", err)
+        setIsLoading(false)
+
+      })
   }
 
   return (
@@ -167,21 +167,21 @@ const Disclaimer = ({ inputs, title, text, name }) => {
         <div className="top">
           <h1>Disclaimer</h1>
         </div>
-        <span style={{marginTop:"-5%"}}>
-       <button style={{ marginLeft:"76%",backgroundColor:"rgb(0, 119, 255)",height:"35px",color: "white" }} onClick={()=>sayHello(publishStatus)}>{publishStatus}</button> 
-       {editorLanguage === "en" ? 
-            <Button type="submit" style={{  backgroundColor:"#0077ff", height:"35px" , width:"auto",color: "white", float:"right", right:"2%", marginBottom:"-2%"}}  onClick={(event) => onSave()} >
-            {isLoading ? <Loader size={20} isLoading={isLoading}></Loader>:"Save"}
-        </Button>
-          : null}      
-      <SaveButton 
-      isDisabled={saveAction} 
-      onSubmit={editorLanguage=="en" ? (event) => onSubmit(event) : (event) => onSave()} 
-      lang={editorLanguage}
-      isLoading={isLoading} 
-      size={20} 
-      />
-       </span>
+        <span style={{ marginTop: "-5%" }}>
+          <button style={{ marginLeft: "76%", backgroundColor: "rgb(0, 119, 255)", height: "35px", color: "white" }} onClick={() => sayHello(publishStatus)}>{publishStatus}</button>
+          {editorLanguage === "en" ?
+            <Button type="submit" style={{ backgroundColor: "#0077ff", height: "35px", width: "auto", color: "white", float: "right", right: "2%", marginBottom: "-2%" }} onClick={(event) => onSave()} >
+              {isLoading ? <Loader size={20} isLoading={isLoading}></Loader> : "Save"}
+            </Button>
+            : null}
+          <SaveButton
+            isDisabled={saveAction}
+            onSubmit={editorLanguage == "en" ? (event) => onSubmit(event) : (event) => onSave()}
+            lang={editorLanguage}
+            isLoading={isLoading}
+            size={20}
+          />
+        </span>
         <div style={{ marginLeft: "20px" }}>
           {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
             {allLanguages &&
@@ -208,7 +208,7 @@ const Disclaimer = ({ inputs, title, text, name }) => {
             handleUpdate={OnTextChange}
           ></RichEditor>
         </div>
-      
+
         <div></div>
       </div>
     </div>

@@ -50,8 +50,9 @@ const Datatable = ({
   const handleCloseWarningEnable = () => setEnableWarning(false);
   const handleCloseWarningDisable = () => setDisableWarning(false);
   const handleShow = (row) => {
-    console.log("row", row);
-    setParamsID(row?.feedback_message?.split(" ")[0]);
+    console.log("row listarea", row, row?.id);
+    // setParamsID(row?.feedback_message?.split(" ")[0]);
+    setParamsID(row?.id);
     setPopUpData(row);
     setShow(true);
   };
@@ -126,7 +127,7 @@ const Datatable = ({
           handleCloseWarningEnable();
           disableColumnFalse(data.feedback_message);
         })
-        .catch(() => {});
+        .catch(() => { });
     });
   };
 
@@ -149,9 +150,9 @@ const Datatable = ({
             handleCloseWarningDisable();
             disableColumnTrue(data.feedback_message);
           })
-          .catch(() => {});
+          .catch(() => { });
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   const disableColumnTrue = (data) => {
@@ -199,7 +200,7 @@ const Datatable = ({
         onPageChange(newPageData);
         handleCloseWarning();
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   const pageCount = () => {

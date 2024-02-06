@@ -20,7 +20,7 @@ const AttentionModel = ({ inputs, title, text, name }) => {
   const [allLanguages, setAllLanguages] = useState([]);
   const [editorLanguage, setEditorLanguage] = useState("en");
   const [defaultData, setDefaultData] = useState("");
-  const [isLoading, setIsLoading]= useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const language = allLanguages.map((x) => x.attributes.code);
@@ -59,15 +59,15 @@ const AttentionModel = ({ inputs, title, text, name }) => {
       await delay();
       let previousValue = defaultData[language[index]];
       let incrementalData = textData.replace(defaultData.en.value, "");
-      if(incrementalData.indexOf("<img")>-1){
-          return textData
+      if (incrementalData.indexOf("<img") > -1) {
+        return textData
       }
       let res = await tranlateText(language[index]);
-     
-      
+
+
       translatedData[language[index]] = { value: res.data.data.translations[0].translatedText }
-      let requiredValue = res.data.data.translations[0].translatedText?  previousValue.value+ res.data.data.translations[0].translatedText: '';
-      translatedData[language[index]] = {value: requiredValue }
+      let requiredValue = res.data.data.translations[0].translatedText ? previousValue.value + res.data.data.translations[0].translatedText : '';
+      translatedData[language[index]] = { value: requiredValue }
     }
     return translatedData
   };
@@ -92,32 +92,32 @@ const AttentionModel = ({ inputs, title, text, name }) => {
 
   const onSubmit = async () => {
     // if (params.op == "add") {
-     setIsLoading(true)
-      getTransLatedTextInsequence().then((resultText) => {
-        axios
-          .post(`${ApiUrl}addAttention`, {
-            textfield: JSON.stringify(resultText),
-          })
-          .then((res) => {
-            axios
-              .put(`${ApiUrl}updateAttention/${res.data.list.insertId}`, {
-                data: {
-                  ReferrenceId: `HERESAYSBANNER000${res.data.list.insertId}`,
-                },
-              })
-              .then((result) => {
-                setIsLoading(false)
-                navigate("/app/attentionmodel");
-              })
-              .catch((err) => {
-                setIsLoading(true)
-                console.log(err);
-              });
-          });
-      })
+    setIsLoading(true)
+    getTransLatedTextInsequence().then((resultText) => {
+      axios
+        .post(`${ApiUrl}addAttention`, {
+          textfield: JSON.stringify(resultText),
+        })
+        .then((res) => {
+          axios
+            .put(`${ApiUrl}updateAttention/${res.data.list.insertId}`, {
+              data: {
+                ReferrenceId: `HERESAYSBANNER000${res.data.list.insertId}`,
+              },
+            })
+            .then((result) => {
+              setIsLoading(false)
+              navigate("/app/attentionmodel");
+            })
+            .catch((err) => {
+              setIsLoading(true)
+              console.log(err);
+            });
+        });
+    })
 
 
-   // }
+    // }
   };
   function sayHello() {
     alert('Data Published Successfully!');
@@ -137,21 +137,21 @@ const AttentionModel = ({ inputs, title, text, name }) => {
         <div className="top">
           <h1>Attention Model</h1>
         </div>
-        <div style={{marginTop:"-50%"}}>
-        <span>
-       <button style={{ marginLeft:"76%",background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)",height:"35px",color: "red" }} onClick={sayHello}>Publish</button>        
-        <button style={{ background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)",height:"35px", marginTop: "81px",color: "white"}} onClick={sayHelloo}>Save</button>
-       </span>
-        <div className="bottom">
-          {/* <div style={{display:"inline-block",top:"18%",position:"absolute"}}>Attention</div> */}
-          {
-            isLoading? 
-            (<Loader isLoading={isLoading}></Loader>):
-         ( <RichEditor
-            data={location.state}
-            handleUpdate={OnTextChange}
-          ></RichEditor>)}
-        </div>
+        <div style={{ marginTop: "-50%" }}>
+          <span>
+            <button style={{ marginLeft: "76%", background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)", height: "35px", color: "red" }} onClick={sayHello}>Publish</button>
+            <button style={{ background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)", height: "35px", marginTop: "81px", color: "white" }} onClick={sayHelloo}>Save</button>
+          </span>
+          <div className="bottom">
+            {/* <div style={{display:"inline-block",top:"18%",position:"absolute"}}>Attention</div> */}
+            {
+              isLoading ?
+                (<Loader isLoading={isLoading}></Loader>) :
+                (<RichEditor
+                  data={location.state}
+                  handleUpdate={OnTextChange}
+                ></RichEditor>)}
+          </div>
         </div>
       </div>
     </div>

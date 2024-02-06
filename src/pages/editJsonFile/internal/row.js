@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import "./row.css";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 const Row = ({ langkey, selectedlanguage, values, updateapi }) => {
   const [changedVal, setChangedVal] = useState(values);
@@ -17,12 +19,14 @@ const Row = ({ langkey, selectedlanguage, values, updateapi }) => {
       value: changedVal,
     };
     axios
-      .put("https://api.heresays.com/api/updateLanguageDataModal", ApiData)
+      .put("https://api2.heresays.com/api/updateLanguageDataModal", ApiData)
       .then((res) => {
         console.log("updated");
+        toastr.success("Updated Successfull");
         updateapi();
       })
       .catch((err) => {
+        toastr.error("unSuccessfull");
         console.log("not updated");
       });
   };

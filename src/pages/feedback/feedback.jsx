@@ -60,6 +60,15 @@ const Feedback = ({ routeName }) => {
     }
   };
 
+  const showTitle = (id) => {
+    var newdata;
+    axios.get(`${ApiUrl}getListStoryById/${id}`).then((result) => {
+      console.log("setSpecificStory", result);
+      newdata = result?.data?.list[0]
+    });
+    return newdata
+  }
+
   const userColumns = [
     {
       field: "id",
@@ -76,6 +85,15 @@ const Feedback = ({ routeName }) => {
     //   headerName: "Subject",
     //   width: 230,
     // },
+    {
+      field: "feedback_subject",
+      headerName: "Subject",
+      width: 230,
+      renderCell: (data) => (
+        // console.log("feedbaaaa", data.row)
+        <h6>{showTitle(data?.row?.feedback_message?.split(" ")[0])}</h6>
+      ),
+    },
     {
       field: "feedback_message",
       headerName: "Feedback",

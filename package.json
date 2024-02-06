@@ -1,4 +1,5 @@
 {
+  "Homepage": ".",
   "name": "lamadmin",
   "version": "0.1.0",
   "private": true,
@@ -18,6 +19,7 @@
     "buffer": "^6.0.3",
     "firebase": "^9.21.0",
     "html-react-parser": "^1.4.12",
+    "jquery": "^3.7.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.5.0",
     "react-circular-progressbar": "^2.0.4",
@@ -28,6 +30,8 @@
     "react-scripts": "5.0.0",
     "recharts": "^2.1.9",
     "sass": "^1.49.9",
+    "serve": "^14.2.1",
+    "toastr": "^2.1.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

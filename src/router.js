@@ -17,6 +17,7 @@ import ChatRoom from "./pages/ChatRoom/ChatRoom";
 import Disclaimer from "./pages/Disclaimer/Disclaimer";
 import TermsandCondition from "./pages/TermsandCondition/TermsandCondition";
 import Manual from "./pages/Manual/Manual";
+import HeresaysHerlad from "./pages/HeresaysHerlad/HeresaysHerlad";
 import Social from "./pages/Social/Social";
 import EditClassified from "./pages/classified/editClassified";
 import { Edit } from "@mui/icons-material";
@@ -231,7 +232,8 @@ const RouterComponent = () => {
             index
             element={
               <RequireAuth redirectTo="/login">
-                <AttentionModel inputs={userInputs} title="update An Entry" />
+                {/* <AttentionModel inputs={userInputs} title="update An Entry" /> */}
+                <EditAttention />
               </RequireAuth>
             }
           />
@@ -289,6 +291,16 @@ const RouterComponent = () => {
             element={
               <RequireAuth redirectTo="/login">
                 <Manual inputs={userInputs} title="update An Entry" />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        <Route path="/app/heresaysherlad">
+          <Route
+            index
+            element={
+              <RequireAuth redirectTo="/login">
+                <HeresaysHerlad inputs={userInputs} title="update An Entry" />
               </RequireAuth>
             }
           />

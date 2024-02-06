@@ -26,7 +26,7 @@ const EditJsonFile = () => {
 
   const getLanguageList = () => {
     axios
-      .get("https://api.heresays.com/api/languagelist")
+      .get("https://api2.heresays.com/api/languagelist")
       .then((res) => {
         let langObj = res?.data?.list[selectedlanguage];
         setLanguageList(res?.data?.list);
