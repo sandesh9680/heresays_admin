@@ -51,7 +51,7 @@ const RouterComponent = () => {
 
   const getUserDetails = () => {
     axios.get(`${ApiUrl}getUserById/${userObj.id}`).then((res) => {
-      console.log("ressss", res.data.list);
+      // console.log("ressss", res.data.list);
       setUserStatus(res.data.list);
     });
   };

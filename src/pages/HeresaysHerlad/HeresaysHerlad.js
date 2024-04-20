@@ -41,7 +41,7 @@ const HeresaysHerlad = ({ inputs, title, text, name }) => {
             getdata();
       }, []);
       const getdata = () => {
-            axios.get(`${ApiUrl}getManual`).then((res) => {
+            axios.get(`${ApiUrl}getHerald`).then((res) => {
                   let requiredData = res.data.data.filter((x) => x.id == 1);
                   setPublishStatus(
                         requiredData[0].attributes.published_at ? "unpublish" : "publish"
@@ -116,7 +116,7 @@ const HeresaysHerlad = ({ inputs, title, text, name }) => {
             let oldContent = { ...defaultData };
             oldContent[editorLanguage] = { value: textData };
             axios
-                  .put(`${ApiUrl}updateManual/1`, {
+                  .put(`${ApiUrl}updateHerald/1`, {
                         description: encodeURIComponent(JSON.stringify(oldContent)),
                   })
                   .then((res) => {
@@ -134,7 +134,7 @@ const HeresaysHerlad = ({ inputs, title, text, name }) => {
             setIsLoading(true);
             getTransLatedTextInsequence().then((resultText) => {
                   axios
-                        .put(`${ApiUrl}updateManual/1`, {
+                        .put(`${ApiUrl}updateHerald/1`, {
                               description: encodeURIComponent(JSON.stringify(resultText)),
                         })
                         .then((res) => {
@@ -151,7 +151,7 @@ const HeresaysHerlad = ({ inputs, title, text, name }) => {
       };
       function sayHello(type) {
             axios
-                  .put(`${ApiUrl}updateManualStatus/1`, {
+                  .put(`${ApiUrl}updateHeraldStatus/1`, {
                         type: type,
                   })
                   .then((res) => {
@@ -174,7 +174,7 @@ const HeresaysHerlad = ({ inputs, title, text, name }) => {
                   <div className="newContainer">
                         {/* <Navbar /> */}
                         <div className="top">
-                              <h1>Manual</h1>
+                              <h1>Heresays Herald</h1>
                         </div>
                         <span style={{ marginTop: "-5%" }}>
                               <button

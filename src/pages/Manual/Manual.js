@@ -99,7 +99,7 @@ const Manual = ({ inputs, title, text, name }) => {
   const tranlateText = (lang) => {
     let textForTraslate = textData.replace(/'/g, "");
     textForTraslate = textForTraslate.substring(
-      defaultData.en.value.length + 1,
+      defaultData?.en?.value.length + 1,
       textData.length + 1
     );
     if (editorLanguage == "en")
@@ -143,7 +143,7 @@ const Manual = ({ inputs, title, text, name }) => {
           setSaveAction(true);
         })
         .catch((error) => {
-          console.log("error occured in translation");
+          console.log("error occured in translation", error);
           setIsLoading(false);
         });
       alert("Data updated Successfully");

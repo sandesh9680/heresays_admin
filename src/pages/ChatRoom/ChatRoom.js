@@ -23,9 +23,9 @@ const ChatRoom = ({ inputs, title, text, name }) => {
   const [textData, setTextData] = useState("");
   const [allLanguages, setAllLanguages] = useState([]);
   const [editorLanguage, setEditorLanguage] = useState("en");
-  const [isLoading, setIsLoading]= useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [defaultData, setDefaultData] = useState("");
-  const [saveAction, setSaveAction]= useState(true);
+  const [saveAction, setSaveAction] = useState(true);
   const [publishStatus, setPublishStatus] = useState('')
   const navigate = useNavigate();
   const params = useParams();
@@ -42,7 +42,7 @@ const ChatRoom = ({ inputs, title, text, name }) => {
     axios.get(`${ApiUrl}getChat`).then((res) => {
       setSaveAction(true)
       let requiredData = res.data.data.filter((x) => x.id == 2);
-      setPublishStatus(requiredData[0].attributes.published_at?"unpublish":'publish')
+      setPublishStatus(requiredData[0].attributes.published_at ? "unpublish" : 'publish')
       let attentionData = JSON.parse(decodeURIComponent(requiredData[0].attributes.coming_soon));
       setDefaultData(attentionData);
     });
@@ -65,20 +65,20 @@ const ChatRoom = ({ inputs, title, text, name }) => {
 
     };
 
-    if(!textData){return ""};
+    if (!textData) { return "" };
     for (let index = 1; index < language.length; index++) {
       await delay();
       let previousValue = defaultData[language[index]];
-      let incrementalData = textData.replace(defaultData &&defaultData.en ?defaultData.en.value:"", "");
-      if(incrementalData.indexOf("<img")>-1){
-        translatedData[language[index]]= {value: previousValue.value + incrementalData};
+      let incrementalData = textData.replace(defaultData && defaultData.en ? defaultData.en.value : "", "");
+      if (incrementalData.indexOf("<img") > -1) {
+        translatedData[language[index]] = { value: previousValue.value + incrementalData };
       }
-      else{
+      else {
         let res = await tranlateText(language[index]);
         // translatedData[language[index]] = { value: res.data.text }
-        let requiredValue =  res.data.text?  ( previousValue ? previousValue.value : "") + res.data.text: '';
-        translatedData[language[index]] = {value: requiredValue }
-        }
+        let requiredValue = res.data.text ? (previousValue ? previousValue.value : "") + res.data.text : '';
+        translatedData[language[index]] = { value: requiredValue }
+      }
     }
     return translatedData
   };
@@ -86,41 +86,42 @@ const ChatRoom = ({ inputs, title, text, name }) => {
   const tranlateText = (lang) => {
     let textForTraslate = textData.replace(/'/g, "");
     textForTraslate = textForTraslate.substring(
-      defaultData.en.value.length + 1,
+      defaultData?.en?.value?.length + 1,
       textData.length + 1
     );
-    if(editorLanguage=="en")
-    return axios.post(
-      `${ApiUrl}translate`,
-      {
-        mimeType: "text/html",
-        targetLanguageCode: lang,
-        // text: textData.replace(defaultData?defaultData.en.value:"", ""),
-        text: textForTraslate,
-        location: "global",
-      }
-    );
+    if (editorLanguage == "en")
+      return axios.post(
+        `${ApiUrl}translate`,
+        {
+          mimeType: "text/html",
+          targetLanguageCode: lang,
+          // text: textData.replace(defaultData?defaultData.en.value:"", ""),
+          text: textForTraslate,
+          location: "global",
+        }
+      );
 
   };
 
 
 
   const onSave = () => {
-    let oldContent = {...defaultData}
-    oldContent[editorLanguage] = {value : textData}
+    let oldContent = { ...defaultData }
+    console.log("resultText+++++++", textData);
+    oldContent[editorLanguage] = { value: textData }
     axios
-    .put(`${ApiUrl}updateChat/2`, {
-      description: encodeURIComponent(JSON.stringify(oldContent)),
-    })
-    .then((res) => {
-      getdata();
-      // setIsLoading(false);
-      // setSaveAction(true);
-    })
-    .catch((error) => {
-      console.log("error occured in translation");
-      // setIsLoading(false);
-    });
+      .put(`${ApiUrl}updateChat/2`, {
+        description: encodeURIComponent(JSON.stringify(oldContent)),
+      })
+      .then((res) => {
+        getdata();
+        // setIsLoading(false);
+        // setSaveAction(true);
+      })
+      .catch((error) => {
+        console.log("error occured in translation");
+        // setIsLoading(false);
+      });
 
   }
 
@@ -129,36 +130,36 @@ const ChatRoom = ({ inputs, title, text, name }) => {
     getTransLatedTextInsequence().then((resultText) => {
       axios
         .put(`${ApiUrl}updateChat/2`, {
-          coming_soon:encodeURIComponent(JSON.stringify(resultText)) ,
+          coming_soon: encodeURIComponent(JSON.stringify(resultText)),
           label: "test"
         })
         .then((res) => {
           setIsLoading(false)
           getdata()
-        }).catch((err)=>{
-          console.log("err",err)
+        }).catch((err) => {
+          console.log("err", err)
           setIsLoading(false)
         })
-        alert("Data updated Successfully")
+      alert("Data updated Successfully")
     });
   };
 
   function sayHello(type) {
     axios
-    .put(`${ApiUrl}updateChatStatus/2`, {
-      type: type
-      
-    })
-    .then((res) => {
-      setIsLoading(false)
-      setSaveAction(true)
-      getdata()
-      
-    }).catch((err)=>{
-      console.log("err",err)
-      setIsLoading(false)
+      .put(`${ApiUrl}updateChatStatus/2`, {
+        type: type
 
-    })
+      })
+      .then((res) => {
+        setIsLoading(false)
+        setSaveAction(true)
+        getdata()
+
+      }).catch((err) => {
+        console.log("err", err)
+        setIsLoading(false)
+
+      })
   }
 
   const OnTextChange = (value, editor) => {
@@ -170,23 +171,23 @@ const ChatRoom = ({ inputs, title, text, name }) => {
       <div className="newContainer">
         {/* <Navbar /> */}
         <div className="top">
-          <h1>ChatRoom</h1>     
+          <h1>ChatRoom</h1>
         </div>
-        <span style={{marginTop:"-5%"}}>
-       <button style={{ marginLeft:"76%",backgroundColor:"rgb(0, 119, 255)",height:"35px",color: "white" }} onClick={()=>sayHello(publishStatus)}>{publishStatus}</button>        
-       {editorLanguage === "en" ? 
-            <Button type="submit" style={{  backgroundColor:"#0077ff", height:"35px" , width:"auto",color: "white", float:"right", right:"2%", marginBottom:"-2%"}}  onClick={(event) => onSave()} >
-            {isLoading ? <Loader size={20} isLoading={isLoading}></Loader>:"Save"}
-        </Button>
-          : null}
-        <SaveButton 
-        isDisabled={saveAction} 
-        onSubmit={editorLanguage=="en" ? (event) => onSubmit(event) : (event) => onSave()} 
-        lang={editorLanguage}
-        isLoading={isLoading} 
-        size={20}
-        />
-       </span>
+        <span style={{ marginTop: "-5%" }}>
+          <button style={{ marginLeft: "76%", backgroundColor: "rgb(0, 119, 255)", height: "35px", color: "white" }} onClick={() => sayHello(publishStatus)}>{publishStatus}</button>
+          {editorLanguage === "en" ?
+            <Button type="submit" style={{ backgroundColor: "#0077ff", height: "35px", width: "auto", color: "white", float: "right", right: "2%", marginBottom: "-2%" }} onClick={(event) => onSave()} >
+              {isLoading ? <Loader size={20} isLoading={isLoading}></Loader> : "Save"}
+            </Button>
+            : null}
+          <SaveButton
+            isDisabled={saveAction}
+            onSubmit={editorLanguage == "en" ? (event) => onSubmit(event) : (event) => onSave()}
+            lang={editorLanguage}
+            isLoading={isLoading}
+            size={20}
+          />
+        </span>
         <div style={{ marginLeft: "20px" }}>
           {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
             {allLanguages &&
@@ -212,7 +213,7 @@ const ChatRoom = ({ inputs, title, text, name }) => {
             handleUpdate={OnTextChange}
           ></RichEditor>
         </div>
-       
+
         <div></div>
       </div>
     </div>
