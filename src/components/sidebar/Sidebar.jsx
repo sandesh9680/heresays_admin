@@ -126,6 +126,15 @@ const Sidebar = () => {
             </Link>
           )}
 
+          {/* {userStatus && userStatus.chatroom_access == 1 && (
+            <Link to="/app/chatroomWarning" style={{ textDecoration: "none" }}>
+              <li>
+                <ForumIcon className="icon" />
+                <span>Chatroom Warning</span>
+              </li>
+            </Link>
+          )} */}
+
           {userStatus && userStatus.disclaimer_access == 1 && (
             <Link to="/app/disclaimer" style={{ textDecoration: "none" }}>
               <li>
@@ -163,10 +172,10 @@ const Sidebar = () => {
           )}
 
           {userStatus && userStatus.manual_access == 1 && (
-            <Link to="/app/heresaysherlad" style={{ textDecoration: "none" }}>
+            <Link to="/app/heresaysherald" style={{ textDecoration: "none" }}>
               <li>
                 <LibraryBooksIcon className="icon" />
-                <span>Heresays Herlad</span>
+                <span>Heresays Herald</span>
               </li>
             </Link>
           )}

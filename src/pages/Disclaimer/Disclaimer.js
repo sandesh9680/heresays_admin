@@ -167,8 +167,8 @@ const Disclaimer = ({ inputs, title, text, name }) => {
         <div className="top">
           <h1>Disclaimer</h1>
         </div>
-        <span style={{ marginTop: "-5%" }}>
-          <button style={{ marginLeft: "76%", backgroundColor: "rgb(0, 119, 255)", height: "35px", color: "white" }} onClick={() => sayHello(publishStatus)}>{publishStatus}</button>
+        <span style={{ marginRight: "5%" }}>
+          <button style={{ float: 'right', backgroundColor: "rgb(0, 119, 255)", height: "35px", color: "white" }} onClick={() => sayHello(publishStatus)}>{publishStatus}</button>
           {editorLanguage === "en" ?
             <Button type="submit" style={{ backgroundColor: "#0077ff", height: "35px", width: "auto", color: "white", float: "right", right: "2%", marginBottom: "-2%" }} onClick={(event) => onSave()} >
               {isLoading ? <Loader size={20} isLoading={isLoading}></Loader> : "Save"}
@@ -181,9 +181,8 @@ const Disclaimer = ({ inputs, title, text, name }) => {
             isLoading={isLoading}
             size={20}
           />
-        </span>
-        <div style={{ marginLeft: "20px" }}>
-          {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
+          <div style={{ marginLeft: "4%", float: 'left' }}>
+            {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
             {allLanguages &&
               allLanguages.map((x) => {
                 return (
@@ -192,15 +191,17 @@ const Disclaimer = ({ inputs, title, text, name }) => {
               })}
           </select> */}
 
-          <select onChange={(e) => setEditorLanguage(e.target.value)}>
-            {AllLanguageFromJson &&
-              AllLanguageFromJson.map((x) => {
-                return (
-                  <option value={x.BCP47}>{x.Native}</option>
-                );
-              })}
-          </select>
-        </div>
+            <select onChange={(e) => setEditorLanguage(e.target.value)}>
+              {AllLanguageFromJson &&
+                AllLanguageFromJson.map((x) => {
+                  return (
+                    <option value={x.BCP47}>{x.Native}</option>
+                  );
+                })}
+            </select>
+          </div>
+        </span>
+
         <div className="bottom">
           <RichEditor
             editorDefaultText={requiredTextData && requiredTextData.value}

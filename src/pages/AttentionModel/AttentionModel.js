@@ -137,9 +137,9 @@ const AttentionModel = ({ inputs, title, text, name }) => {
         <div className="top">
           <h1>Attention Model</h1>
         </div>
-        <div style={{ marginTop: "-50%" }}>
+        <div style={{ marginRight: "5%" }}>
           <span>
-            <button style={{ marginLeft: "76%", background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)", height: "35px", color: "red" }} onClick={sayHello}>Publish</button>
+            <button style={{ float: 'right', background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)", height: "35px", color: "red" }} onClick={sayHello}>Publish</button>
             <button style={{ background: "linear-gradient(45deg, #000C66 30%, #0000FF 90%)", height: "35px", marginTop: "81px", color: "white" }} onClick={sayHelloo}>Save</button>
           </span>
           <div className="bottom">

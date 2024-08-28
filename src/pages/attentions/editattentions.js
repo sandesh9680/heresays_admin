@@ -179,10 +179,10 @@ const EditAttention = ({ inputs, title, text, name }) => {
             Attention Model
           </h1>
         </div>
-        <span style={{ marginTop: "-5%" }}>
+        <span style={{ marginRight: "5%" }}>
           <button
             style={{
-              marginLeft: "76%",
+              float: 'right',
               backgroundColor: "rgb(0, 119, 255)",
               height: "35px",
               color: "white",
@@ -203,9 +203,8 @@ const EditAttention = ({ inputs, title, text, name }) => {
             isLoading={isLoading}
             size={20}
           />
-        </span>
-        <div style={{ marginLeft: "20px" }}>
-          {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
+          <div style={{ marginLeft: "4%", float: 'left' }}>
+            {/* <select onChange={(e) => setEditorLanguage(e.target.value)}>
             {allLanguages &&
               allLanguages.map((x) => {
                 return (
@@ -213,15 +212,17 @@ const EditAttention = ({ inputs, title, text, name }) => {
                 );
               })}
           </select> */}
-          <select onChange={(e) => setEditorLanguage(e.target.value)}>
-            {AllLanguageFromJson &&
-              AllLanguageFromJson.map((x) => {
-                return (
-                  <option value={x.BCP47}>{x.Native}</option>
-                );
-              })}
-          </select>
-        </div>
+            <select onChange={(e) => setEditorLanguage(e.target.value)}>
+              {AllLanguageFromJson &&
+                AllLanguageFromJson.map((x) => {
+                  return (
+                    <option value={x.BCP47}>{x.Native}</option>
+                  );
+                })}
+            </select>
+          </div>
+        </span>
+
 
         <div className="bottom">
           <RichEditor

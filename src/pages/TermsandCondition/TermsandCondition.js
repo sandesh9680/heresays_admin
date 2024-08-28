@@ -202,10 +202,10 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
         <div className="top">
           <h1>Terms & Condition</h1>
         </div>
-        <span style={{ marginTop: "-5%" }}>
+        <span style={{ marginRight: "5%" }}>
           <button
             style={{
-              marginLeft: "76%",
+              float: 'right',
               backgroundColor: "rgb(0, 119, 255)",
               height: "35px",
               width: "auto",
@@ -249,15 +249,16 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
             lang={editorLanguage}
             size={20}
           />
+          <div style={{ marginLeft: "4%", float: 'left' }}>
+            <select onChange={(e) => setEditorLanguage(e.target.value)}>
+              {AllLanguageFromJson &&
+                AllLanguageFromJson.map((x) => {
+                  return <option value={x.BCP47}>{x.Native}</option>;
+                })}
+            </select>
+          </div>
         </span>
-        <div style={{ marginLeft: "20px" }}>
-          <select onChange={(e) => setEditorLanguage(e.target.value)}>
-            {AllLanguageFromJson &&
-              AllLanguageFromJson.map((x) => {
-                return <option value={x.BCP47}>{x.Native}</option>;
-              })}
-          </select>
-        </div>
+
 
         <div className="bottom">
           <RichEditor

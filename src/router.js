@@ -36,6 +36,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ApiUrl } from "./config/config";
 import LandingPage from "./pages/layout/landingPage";
+import WarningMessage from "./pages/warningMessage/WarningMessage";
 const RouterComponent = () => {
   const navigate = useNavigate();
   const [userStatus, setUserStatus] = useState();
@@ -250,6 +251,17 @@ const RouterComponent = () => {
           />
         </Route>
 
+        <Route path="/app/chatroomWarning">
+          <Route
+            index
+            element={
+              <RequireAuth redirectTo="/login">
+                <WarningMessage inputs={userInputs} title="update An Entry" />
+              </RequireAuth>
+            }
+          />
+        </Route>
+
         <Route path="/app/disclaimer">
           <Route
             index
@@ -295,7 +307,7 @@ const RouterComponent = () => {
             }
           />
         </Route>
-        <Route path="/app/heresaysherlad">
+        <Route path="/app/heresaysherald">
           <Route
             index
             element={
