@@ -117,7 +117,7 @@ const Manual = ({ inputs, title, text, name }) => {
     oldContent[editorLanguage] = { value: textData };
     axios
       .put(`${ApiUrl}updateManual/1`, {
-        description: encodeURIComponent(JSON.stringify(oldContent)),
+        description: JSON.stringify(oldContent),
       })
       .then((res) => {
         getdata();
@@ -135,7 +135,7 @@ const Manual = ({ inputs, title, text, name }) => {
     getTransLatedTextInsequence().then((resultText) => {
       axios
         .put(`${ApiUrl}updateManual/1`, {
-          description: encodeURIComponent(JSON.stringify(resultText)),
+          description: JSON.stringify(resultText),
         })
         .then((res) => {
           getdata();

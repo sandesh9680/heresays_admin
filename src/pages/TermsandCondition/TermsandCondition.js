@@ -12,6 +12,8 @@ import SaveButton from "../../components/saveButton/saveButton";
 import { AllLanguageFromJson } from "../../config/languages";
 import { Button } from "@mui/material";
 import Loader from "../../components/loader/loader";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const TermsandCondition = ({ inputs, title, text, name }) => {
   const delay = (ms = 200) => new Promise((r) => setTimeout(r, ms));
@@ -39,26 +41,61 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
   );
   // console.log("removeEnglishFromList" , removeEnglishFromList);
   // console.log("AllLanguageFromJson",AllLanguageFromJson);
-  let requiredTextData = Object.fromEntries(
-    Object.entries(defaultData).filter(([key]) => key.includes(editorLanguage))
-  )[editorLanguage];
+  // let requiredTextData = Object.fromEntries(
+  //   Object.entries(defaultData).filter(([key]) => key.includes(editorLanguage))
+  // )[editorLanguage];
   useEffect(() => {
     // getLanguage();
-    getdata();
+    // getdata();
   }, []);
-  const getdata = () => {
-    axios.get(`${ApiUrl}getTermsAndCondition`).then((res) => {
-      // console.log("getData",res);
+
+  useEffect(() => {
+    getdata(editorLanguage)
+  }, [editorLanguage])
+
+  function removeOldContentFromNewContent(newContent, oldContent) {
+    // Create a DOM parser to parse the HTML string
+    const parser = new DOMParser();
+
+    // Parse the newContent and oldContent as HTML documents
+    const newDoc = parser.parseFromString(newContent.replace(/(<p>&nbsp;<\/p>\s*)+/g, ''), 'text/html');
+    const oldDoc = parser.parseFromString(oldContent.replace(/(<p>&nbsp;<\/p>\s*)+/g, ''), 'text/html');
+
+    // Helper function to remove a matching node from newDoc based on oldDoc
+    const removeMatchingNodes = (newDoc, oldDoc) => {
+      const oldNodes = Array.from(oldDoc.body.children);
+      oldNodes.forEach(oldNode => {
+        const matchingNode = newDoc.body.querySelector(oldNode.tagName);
+        if (matchingNode && matchingNode.outerHTML === oldNode.outerHTML) {
+          matchingNode.remove();
+        }
+      });
+    };
+
+    // Remove matching nodes from newContent
+    removeMatchingNodes(newDoc, oldDoc);
+
+    // Return the cleaned HTML content as a string
+    return newDoc.body.innerHTML.trim();
+  }
+
+
+  const getdata = (lang) => {
+    let apiData = {
+      language: lang
+    }
+    axios.post(`${ApiUrl}getTermsAndCondition`, apiData).then((res) => {
+      // console.log("getData+++++++++++++++++++++++", res.data.data.description);
       // console.log("terms Data admin",res?.data?.data);
-      let requiredData = res.data.data.filter((x) => x.id == 289);
-      setPublishStatus(
-        requiredData[0].attributes.published_at ? "unpublish" : "publish"
-      );
-      let termsData = JSON.parse(
-        decodeURIComponent(requiredData[0].attributes.description)
-      );
-      console.log("defaultData", termsData);
-      setDefaultData(termsData);
+      // let requiredData = res.data.data.filter((x) => x.id == 289);
+      // setPublishStatus(
+      //   requiredData[0].attributes.published_at ? "unpublish" : "publish"
+      // );
+      // let termsData = JSON.parse(
+      //   decodeURIComponent(requiredData[0].attributes.description)
+      // );
+      // console.log("defaultData", res.data.data.description);
+      setDefaultData(res.data.data.description);
     });
   };
   // const getLanguage = () => {
@@ -73,64 +110,95 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
   // };
 
   const getTransLatedTextInsequence = async () => {
+    // let modifiedA = defaultData.replace(/<p>&nbsp;<\/p>$/, '');
+    let newContent = textData.replace(defaultData, '');
     let translatedData = {
       en: {
-        value: textData.replace(/'/g, ""),
+        value: newContent.replace(/'/g, ""),
       },
     };
 
-    if (!textData) {
+    if (!newContent) {
       return "";
     }
     for (let index = 1; index < language.length; index++) {
       await delay();
-      let previousValue = defaultData[language[index]];
-      let incrementalData = textData.replace(
-        defaultData && defaultData.en ? defaultData.en.value : "",
-        ""
-      );
+      // let previousValue = defaultData[language[index]];
+      // let incrementalData = textData.replace(
+      //   defaultData && defaultData.en ? defaultData.en.value : "",
+      //   ""
+      // );
+      let previousValue = defaultData;
+      const incrementalData = removeOldContentFromNewContent(textData, defaultData);
+
+      translatedData["en"] = {
+        // value: previousValue.value + incrementalData,
+        value: incrementalData,
+      };
       if (incrementalData.indexOf("<img") > -1) {
+
+        translatedData["en"] = {
+          // value: previousValue.value + incrementalData,
+          value: incrementalData,
+        };
+
         translatedData[language[index]] = {
-          value: previousValue.value + incrementalData,
+          // value: previousValue.value + incrementalData,
+          value: incrementalData,
         };
       } else {
         let res = await tranlateText(language[index]);
-        // let requiredValue = res.data.text;
-        // translatedData[language[index]] = { value: requiredValue }
+        if (res.data.text) {
+          toast.success(`Successfully translated to ${language[index]}!`, {
+            position: "top-center"
+          })
+        } else {
+          toast.error('Something went wrong!', {
+            position: "top-center"
+          })
+        }
         let requiredValue = res.data.text
-          ? (previousValue ? previousValue.value : "") + res.data.text
+          ? (previousValue ? previousValue : "") + res.data.text
           : "";
-        translatedData[language[index]] = { value: requiredValue };
+        translatedData[language[index]] = { value: res.data.text };
       }
     }
     return translatedData;
   };
 
-  const tranlateText = (lang) => {
-    let textForTraslate = textData.replace(/'/g, "");
-    textForTraslate = textForTraslate.substring(
-      defaultData.en.value.length + 1,
-      textData.length + 1
-    );
+  const tranlateText = async (lang) => {
+    let textForTraslate;
+    // textForTraslate = textForTraslate.substring(
+    //   defaultData.length + 1,
+    //   textData.length + 1
+    // );
+    const newContent = removeOldContentFromNewContent(textData, defaultData);
+    textForTraslate = newContent;
     if (editorLanguage == "en")
       return axios.post(`${ApiUrl}translate`, {
         mimeType: "text/html",
         targetLanguageCode: lang,
-        text: textForTraslate,
+        text: newContent?.replace(/'/g, ""),
         // text: textData.replace(defaultData?defaultData.en.value:"", ""),
         location: "global",
-      });
+      })
   };
 
   const onSave = () => {
     let oldContent = { ...defaultData };
     oldContent[editorLanguage] = { value: textData };
+    let singleFileData = {
+      [editorLanguage]: {
+        value: textData.replace(/'/g, ""),
+      },
+    }
     axios
       .put(`${ApiUrl}updateTermsAndCondition/289`, {
-        description: encodeURIComponent(JSON.stringify(oldContent)),
+        description: JSON.stringify(singleFileData),
+        onlySave: true
       })
       .then((res) => {
-        getdata();
+        getdata(editorLanguage);
         setIsLoading(false);
         setSaveAction(true);
       })
@@ -148,15 +216,15 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
       // if(!defaultData){
       axios
         .put(`${ApiUrl}updateTermsAndCondition/289`, {
-          description: encodeURIComponent(JSON.stringify(resultText)),
+          description: JSON.stringify(resultText),
         })
         .then((res) => {
-          getdata();
+          getdata(editorLanguage);
           setIsLoading(false);
           setSaveAction(true);
         })
         .catch((error) => {
-          console.log("error occured in translation");
+          console.log("error occured in translation", error);
           setIsLoading(false);
         });
       // }else{
@@ -261,8 +329,9 @@ const TermsandCondition = ({ inputs, title, text, name }) => {
 
 
         <div className="bottom">
+          <Toaster />
           <RichEditor
-            editorDefaultText={requiredTextData && requiredTextData.value}
+            editorDefaultText={defaultData && defaultData}
             data={location.state}
             handleUpdate={OnTextChange}
           ></RichEditor>

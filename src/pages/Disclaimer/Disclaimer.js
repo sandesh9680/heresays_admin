@@ -106,7 +106,7 @@ const Disclaimer = ({ inputs, title, text, name }) => {
     oldContent[editorLanguage] = { value: textData }
     axios
       .put(`${ApiUrl}updateDisclaimer/2`, {
-        description: encodeURIComponent(JSON.stringify(oldContent)),
+        description: JSON.stringify(oldContent),
       })
       .then((res) => {
         getdata();
@@ -126,7 +126,7 @@ const Disclaimer = ({ inputs, title, text, name }) => {
     getTransLatedTextInsequence().then((resultText) => {
       axios
         .put(`${ApiUrl}updateDisclaimer/2`, {
-          description: encodeURIComponent(JSON.stringify(resultText)),
+          description: JSON.stringify(resultText),
           label: "test"
         })
         .then((res) => {

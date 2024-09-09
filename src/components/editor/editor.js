@@ -1,6 +1,15 @@
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Card, Grid, TextField } from '@mui/material';
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+  accessKeyId: "AKIARNI3QRX3RTAWBW57",
+  secretAccessKey: "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",
+  region: "eu-west-3",
+});
+
+const s3 = new AWS.S3();
 
 
 export default function RichEditor(props) {
@@ -9,6 +18,28 @@ export default function RichEditor(props) {
     if (editorRef.current) {
     }
   };
+
+  const uploadImageToS3 = (blobInfo, success, failure) => {
+    const file = blobInfo.blob();
+    const fileName = `${Date.now()}-${file.name}`;
+    const params = {
+      Bucket: "heresaysbucket",
+      Key: fileName,
+      Body: file,
+      // ACL: 'public-read',
+    };
+
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.error('Upload to S3 failed:', err);
+        failure('Error uploading image');
+        return;
+      }
+      success(data.Location);
+    });
+  };
+
+
   return (
     <>
       {props?.editorDefaultText ?
@@ -20,15 +51,15 @@ export default function RichEditor(props) {
           init={{
             apiKey: 'rtegbgbdp35gkn2f2srqxvgdlzxd5koysugkvk7rq4u4m7on',
             // tinydrive_token_provider: 'http://localhost:3000/api/jwt',
-            images_upload_handler: function () { },
+            images_upload_handler: uploadImageToS3,
             // jwt_token: jwtToken,
             height: 500,
             selector: 'textarea#file-picker',
             resize: false,
             resize_img_proportional: false,
             menubar: true,
-            images_upload_url: false,
-            // automatic_uploads: true,
+            images_upload_url: true,
+            automatic_uploads: true,
             file_picker_types: 'image',
             image_title: true,
             toolbar_mode: 'wrap',
@@ -38,7 +69,7 @@ export default function RichEditor(props) {
             plugins:
               [
                 'image',
-                'advlist  autolink lists link image charmap print preview',
+                'advlist  autolink lists link image charmap print preview anchor',
                 'searchreplace visualblocks code fullscreen',
                 'insertdatetime media table paste code help wordcount',
                 'tinydrive',
@@ -50,7 +81,11 @@ export default function RichEditor(props) {
                 'searchreplace',
                 'table',
                 'wordcount',
-                'link'
+                'link',
+
+                'autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount',
 
               ],
             file_picker_callback: (cb, value, meta) => {
